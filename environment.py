@@ -11,26 +11,26 @@ class Environment:
             # totalReward
             # reward
             # done
+            # actionVector
         
+        self.actionVector = numpy.array([0,1,2,3])
+        self.positionVector = numpy.array([0,1,2,3,4,5])
         self.totalReward = 0
         self.reward = 0
         self.done = False
         self.buildRatScenario()
         self.buildRewardEnvironment()        
         self.start()        
-        pass
     
     # builds a matrix that represents the rat position
     def buildRatScenario(self):
         env = numpy.zeros((2,3),int)
         self.ratScenario = env
-        pass
 
     # builds a matrix that represents the rewards positions
     def buildRewardEnvironment(self):
         env = numpy.matrix([[0,1,0],[3,4,5]])
         self.rewardScenario = env
-        pass
 
     # positions the rat into the environment, at the first position
     def start(self):
@@ -94,7 +94,10 @@ class Environment:
             reward = 10
             self.done = True
         self.reward = reward
-        self.totalReward += reward        
+        self.totalReward += reward    
+
+    def getActionVector(self):
+        return self.actionVector
 
     # returns the accumulated totalReward
     def getTotalReward(self):
@@ -111,6 +114,10 @@ class Environment:
     # returns the rat's actual position
     def getPosition(self):
         return self.position
+    
+    # returns the environment's position vector
+    def getPositionVector(self):
+        return self.positionVector
     
         
 
