@@ -39,43 +39,53 @@ class Environment:
 
     # changes the rat's position, according to position argument
     # 0 <= position <= 5        
-    def changePosition(self, position):        
-        self.position = position
+    def updateRatRewardMatrix(self, position):        
         scenarioColumns = self.ratScenario.shape[1]
-        self.setReward()
         self.ratScenario = numpy.zeros((2,3),int)
         self.ratScenario[math.floor(position/scenarioColumns), position % scenarioColumns] = 99
         self.rewardScenario[math.floor(position/scenarioColumns), position % scenarioColumns] = 0
 
     # moves the rat upwards, except when it is at scenario's upper edges
     def actionUp(self):
-        if math.floor(self.position/self.ratScenario.shape[1])>0:
-            self.position -= self.ratScenario.shape[1]          
-            self.changePosition(self.position) 
+        if self.position/self.ratScenario.shape[1] >= 1:
+            self.position -= self.ratScenario.shape[1]
+            self.setReward()
+            self.updateRatRewardMatrix(self.position)             
+        else:
+            self.setReward()
 
     # moves the rat upwards, except when it is at scenario's lower edges
     def actionDown(self):
-        if math.ceil(self.position/self.ratScenario.shape[1])<self.ratScenario.shape[0]:
+        if self.position/self.ratScenario.shape[1] < self.ratScenario.shape[0]-1:
             self.position += self.ratScenario.shape[1]
-            self.changePosition(self.position)
+            self.setReward()
+            self.updateRatRewardMatrix(self.position)
+        else: 
+            self.setReward()
 
     # @staticmethod
     # def actionLeft(self):
     #     if self.ratScenario[:,0].all != numpy.zeros(self.ratScenario.shape[0] ,dtype=int).all:
     #         self.position -= 1
-    #         self.changePosition(self.position)
+    #         self.updateRatRewardMatrix(self.position)
 
     # moves the rat upwards, except when it is at scenario's left edges
     def actionLeft(self):
         if self.position != 0 and self.position != 3:
             self.position -= 1
-            self.changePosition(self.position)
-    
+            self.setReward()
+            self.updateRatRewardMatrix(self.position)
+        else: 
+            self.setReward()
+
     # moves the rat upwards, except when it is at scenario's right edges
     def actionRight(self):
         if self.position !=2 and self.position != 5:
             self.position += 1
-            self.changePosition(self.position)
+            self.setReward()
+            self.updateRatRewardMatrix(self.position)
+        else:
+            self.setReward()
     
     # sets the reward according to the rewardScenario matrix status
     def setReward(self):
@@ -96,6 +106,28 @@ class Environment:
         self.reward = reward
         self.totalReward += reward    
 
+    # makes the environment perform a step
+    def step(self, action):
+        if action == 0:
+            self.actionUp()
+        elif action == 1:
+            self.actionDown()
+        elif action == 2:
+            self.actionLeft()
+        elif action == 3:
+            self.actionRight()
+        return self.position, self.reward, self.done
+    
+    # resets some of the environment attributes
+    def reset(self):
+        self.totalReward = 0
+        self.reward = 0
+        self.done = False
+        self.buildRatScenario()
+        self.buildRewardEnvironment()        
+        self.start()        
+
+    # returns a vector with the environment's action representations
     def getActionVector(self):
         return self.actionVector
 
