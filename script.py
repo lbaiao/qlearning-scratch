@@ -70,7 +70,7 @@ if __name__ ==  "__main__":
     agent = Qlearning(env, MAX_NUM_EPISODES, STEPS_PER_EPISODE, EPSILON_MIN, EPSILON_DECAY, ALPHA, GAMMA)
     learned_policy = train(agent,env)
     env = Environment()
-    for i in range(10):
+    for i in range(4):
         test(agent, env, learned_policy)
         env.reset()
         print('DONE \n\n')     

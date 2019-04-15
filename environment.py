@@ -93,12 +93,14 @@ class Environment:
         state = self.rewardScenario[math.floor(self.position/scenarioColumns), self.position % scenarioColumns]
         if state == 0:
             reward = -1
+            # reward = 0
         elif state == 1:
             reward = 1
         elif state == 3:
             reward = 2
         elif state == 4:
-            reward = -100
+            # reward = -100
+            reward = -10
             self.done = True
         elif state == 5:
             reward = 10
