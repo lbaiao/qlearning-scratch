@@ -48,15 +48,19 @@ def test(agent, env, policy):
     obs = env.getPosition()
     total_reward = 0.0
     i = 0
+    print("RewardScenario: \n{}".format(env.rewardScenario))
+    print("RatScenario: \n{}".format(env.ratScenario))
+    print("================================================")
     while not done:
-        if i == 20:
-            print('fudeu')
+        # if i == 20:
+        #     print('fudeu')
         action = policy[obs]
         next_obs, reward, done = env.step(action)
         obs = next_obs
         total_reward += reward
         print("RewardScenario: \n{}".format(env.rewardScenario))
         print("RatScenario: \n{}".format(env.ratScenario))
+        print("total reward: {}".format(total_reward))
         print("================================================")
         i+=1
     return total_reward
