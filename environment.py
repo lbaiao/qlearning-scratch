@@ -20,7 +20,8 @@ class Environment:
         self.done = False
         self.buildRatScenario()
         self.buildRewardEnvironment()        
-        self.start()        
+        self.start()
+        self.position3 = False        
     
     # builds a matrix that represents the rat position
     def buildRatScenario(self):
@@ -92,12 +93,12 @@ class Environment:
         scenarioColumns = self.rewardScenario.shape[1]
         state = self.rewardScenario[math.floor(self.position/scenarioColumns), self.position % scenarioColumns]
         if state == 0:
-            reward = -1
+            reward = 0
             # reward = 0
         elif state == 1:
             reward = 1
         elif state == 3:
-            reward = 2
+            reward = 5
         elif state == 4:
             # reward = -100
             reward = -10
@@ -110,15 +111,31 @@ class Environment:
 
     # makes the environment perform a step
     def step(self, action):
+        state = 0
         if action == 0:
             self.actionUp()
+            state = self.position
         elif action == 1:
             self.actionDown()
+            state = self.position
         elif action == 2:
             self.actionLeft()
+            state = self.position
         elif action == 3:
-            self.actionRight()
-        return self.position, self.reward, self.done
+            self.actionRight()    
+            state = self.position
+        if self.position == 0:
+            if self.position3:
+                state = 7
+            else:
+                state = self.position
+        if self.position == 3:            
+            if self.position3:
+                state = 6                
+            else:
+                state = self.position
+                self.position3 = True        
+        return state, self.reward, self.done
     
     # resets some of the environment attributes
     def reset(self):

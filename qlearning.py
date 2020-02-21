@@ -12,7 +12,7 @@ class Qlearning:
         self.alpha = alpha
         self.gamma = gamma
         self.actionVector = env.getActionVector()
-        self.qTable = np.zeros((self.env.getPositionVector().shape[0], self.env.getActionVector().shape[0]))
+        self.qTable = np.zeros((self.env.getPositionVector().shape[0]+2, self.env.getActionVector().shape[0]))
     
     # selects action according to epsilon-greedy policy
     def getAction(self, obs):

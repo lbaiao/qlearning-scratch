@@ -3,13 +3,14 @@ from qlearning import Qlearning
 import numpy as np
 
 # agent parameters
-MAX_NUM_EPISODES = 20000
+MAX_NUM_EPISODES = int(2e4)
 STEPS_PER_EPISODE = 20 #  This is specific to MountainCar. May change with env
-EPSILON_MIN = 0.005
+EPSILON_MIN = 0.05
 max_num_steps = MAX_NUM_EPISODES * STEPS_PER_EPISODE
-EPSILON_DECAY = 1000 * EPSILON_MIN / max_num_steps
-ALPHA = 0.05  # Learning rate
+EPSILON_DECAY = 30 * EPSILON_MIN / max_num_steps
+ALPHA = 0.02  # Learning rate
 GAMMA = 0.98  # Discount factor
+
 
 # training function
 def train(agent, env):
